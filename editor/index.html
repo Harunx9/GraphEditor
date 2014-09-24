@@ -1,9 +1,16 @@
 <html ng-app="EditorApp">
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/app.css">
 	</head>
 	<body>
-		<div ng-view></div>
+		<nav class="navbar navbar-inverse fixed-top">
+			
+		</nav>
+		<div class="container">
+			<div ng-view></div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script type="text/javascript" src="libs/angular.js"></script>
 		<script type="text/javascript" src="libs/angular-route.js"></script>
 		<script type="text/javascript" src="libs/angular-resource.js"></script>

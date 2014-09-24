@@ -3,11 +3,11 @@ var editorApp = angular.module('EditorApp',['ngRoute', 'EditorControllers']);
 editorApp.config(['$routeProvider',
 	function($routeProvider) {
 	$routeProvider.
-		when('/welcome',{
+		when('/',{
 			templateUrl: 'templates/main.html',
-			controller: 'MainController'
+			controller: 'HomeController'
 		}).
-		when('/:nick/editor',{
+		when('/editor',{
 			templateUrl: 'templates/editor.html',
 			controller: 'EditorController'
 		}).
