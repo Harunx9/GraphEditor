@@ -1,5 +1,5 @@
 # coding: utf-8
-from flask import Flask, request
+from flask import Flask, render_template
 from flask.ext.restless import APIManager
 from models.models import db,  User, Scheme
 
@@ -10,10 +10,14 @@ db.init_app(app)
 db.app = app
 db.create_all()
 
-manager = APIManager(app, flask_sqlalchemy_db=db)
-manager.create_api(Scheme, methods = ['GET', 'POST'])
-manager.create_api(User, methods=['PUT', 'GET'])
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+manager = APIManager(app, flask_sqlalchemy_db=db)
+manager.create_api(Scheme, methods=['GET', 'POST'])
+manager.create_api(User, methods=['PUT', 'GET'])
 
 
 if __name__ == '__main__':

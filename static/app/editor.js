@@ -4,23 +4,23 @@ editorApp.config(['$routeProvider',
 	function($routeProvider) {
 	$routeProvider.
 		when('/',{
-			templateUrl: 'templates/main.html',
+			templateUrl: 'static/templates/main.html',
 			controller: 'HomeController'
 		}).
 		when('/editor',{
-			templateUrl: 'templates/editor.html',
+			templateUrl: 'static/templates/editor.html',
 			controller: 'EditorController'
 		}).
 		when('/user/:nick',{
-			templateUrl: 'templates/user.html',
+			templateUrl: 'static/templates/user.html',
 			controller: 'UserController'
 		}).
 		when('/register',{
-			templateUrl: 'templates/registration.html',
+			templateUrl: 'static/templates/registration.html',
 			controller: 'RegistrationController'
 		}).
 		when('/login',{
-			templateUrl: 'templates/login.html',
+			templateUrl: 'static/templates/login.html',
 			controller: 'LoginController'
 		});
 }]);

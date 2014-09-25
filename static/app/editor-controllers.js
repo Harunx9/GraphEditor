@@ -23,7 +23,7 @@ editorControllers.controller('RegistrationController',
 	function($scope, $location, $http){
 	
 	$scope.register = function(user){
-		$http.put('http://127.0.0.1:5000/api/user', user)
+		$http.post('http://127.0.0.1:5000/api/user', user)
 		.success(function(data, status){
 			return true;	
 		});
