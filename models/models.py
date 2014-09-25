@@ -1,8 +1,9 @@
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text
 from datetime import datetime
 
 db = SQLAlchemy()
+
 
 class Scheme(db.Model):
     id = Column(Integer, primary_key=True)
@@ -29,4 +30,17 @@ class User(db.Model):
         self.password = password
 
     def __repr__(self):
-        return '<User %r Password %r>'
+        return '<User %r Password %r>' % (self.name, self.password)
+
+
+class ChangeLog(db.Model):
+    id = Column(Integer, primary_key=True)
+    date = Column(DateTime)
+    changes = Column(Text)
+
+    def __init__(self, changes):
+        self.date = datetime.utcnow()
+        self.changes = changes
+
+    def __repr__(self):
+        return '<ChangeLog %r Date %r>' % (self.changes, self.date)
