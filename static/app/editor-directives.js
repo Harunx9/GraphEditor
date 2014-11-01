@@ -9,35 +9,41 @@ function(NodeTool, LineTool){
 			var ctx = element[0].getContext('2d');
 			var mouseX;
 			var mouseY;
-			var dravingLine = false;
+			var drawingLine = false;
 			element.bind('mousedown', function(event){
 				var currentTool = scope.tool;
-				var mouseX = event.offsetX;
-				var mouseY = event.offsetY;
+				mouseX = event.offsetX;
+				mouseY = event.offsetY;
 				if(currentTool instanceof NodeTool)
 				{
 					currentTool.x = mouseX;
 					currentTool.y = mouseY;
 					drawNode(mouseX, mouseY, currentTool.nodeType, currentTool.dimension, currentTool.color);
 					scope.graph.nodes.push(angular.copy(currentTool));
-				}else{
-
-				}
-			});
-
-			element.bind('mousemove', function(event){
-				var currentTool = scope.tool
-				if(currentTool instanceof LineTool)
-				{
-
+				}else if (currentTool instanceof LineTool){
+					var nodeStart = {
+						x: mouseX,
+						y: mouseY,
+					}
+					currentTool.nodeStart = nodeStart;
+					drawingLine = true;
 				}
 			});
 
 			element.bind('mouseup', function(event){
 				var currentTool = scope.tool
-				if(currentTool instanceof LineTool)
+				if(currentTool instanceof LineTool && drawingLine === true)
 				{
-
+					mouseX = event.offsetX;
+					mouseY = event.offsetY;
+					var nodeEnd = {
+						x: mouseX,
+						y: mouseY
+					}
+					currentTool.nodeEnd = nodeEnd;
+					drawLine(currentTool.nodeStart, currentTool.nodeEnd, currentTool.color, currentTool.thickness);
+					scope.graph.edges.push(angular.copy(currentTool));
+					drawingLine = false;
 				}
 			});
 
@@ -72,7 +78,13 @@ function(NodeTool, LineTool){
 			}
 
 			function drawLine(nodeStart, nodeEnd, lineColor, lineThickness){
-
+				ctx.lineWidth = lineThickness;
+				ctx.beginPath();
+				ctx.moveTo(nodeStart.x, nodeStart.y);
+				ctx.lineTo(nodeEnd.x, nodeEnd.y);
+				ctx.strokeStyle = lineColor;
+				ctx.stroke();
+				ctx.closePath();
 			}
 		}
 	};
