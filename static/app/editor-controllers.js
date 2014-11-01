@@ -34,13 +34,19 @@ editorControllers.controller('EditorController',
 
 
 	$scope.nodeTool = function(){
-		$scope.tool = NodeTool;
+		$scope.tool = new NodeTool;
+		console.log($scope.tool);
 	}
 
 	$scope.lineTool = function(){
-		$scope.tool = LineTool;
+		$scope.tool = new LineTool;
+		console.log($scope.tool);
 	}
 
+	$scope.handTool = function(){
+
+	}
+	console.log($scope.tool);
 }]);
 
 editorControllers.controller('UserController',

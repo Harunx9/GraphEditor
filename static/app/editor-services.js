@@ -18,24 +18,22 @@ editorServices.factory('CanvasService', function(){
 });
 
 editorServices.factory('NodeTool', function(){
-	var node = {
-		x:0,
-		y:0,
-		nodeType:'circle',
-		dimension:10,
-		color: '#3399FF'
+	function node (){
+		this.x = 0;
+		this.y = 0;
+		this.nodeType = 'circle';
+		this.dimension = 10;
+		this.color = '#3399FF';
 	}
-
 	return node;
 })
 
 editorServices.factory('LineTool', function(){
-	var line ={
-		nodeStart: null,
-		nodeEnd: null,
-		color: '#3399FF',
-		thickness: 3
+	function line (){
+		this.nodeStart = null;
+		this.nodeEnd = null;
+		this.color = '#3399FF';
+		this.thickness = 3;
 	}
-
 	return line;
 });
