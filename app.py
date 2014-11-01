@@ -1,7 +1,7 @@
 # coding: utf-8
 from flask import Flask, render_template
 from flask.ext.restless import APIManager
-from flask.ext.admin import Admin, BaseView
+from flask.ext.admin import Admin
 from flask.ext.admin.contrib.sqla import ModelView
 from models.models import db,  User, Scheme, ChangeLog
 
