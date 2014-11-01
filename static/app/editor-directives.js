@@ -9,7 +9,7 @@ function(NodeTool, LineTool){
 			var ctx = element[0].getContext('2d');
 			var mouseX;
 			var mouseY;
-
+			var dravingLine = false;
 			element.bind('mousedown', function(event){
 				var currentTool = scope.tool;
 				var mouseX = event.offsetX;
@@ -19,7 +19,6 @@ function(NodeTool, LineTool){
 					currentTool.x = mouseX;
 					currentTool.y = mouseY;
 					drawNode(mouseX, mouseY, currentTool.nodeType, currentTool.dimension, currentTool.color);
-					console.log(currentTool);
 					scope.graph.nodes.push(angular.copy(currentTool));
 				}else{
 
@@ -27,11 +26,19 @@ function(NodeTool, LineTool){
 			});
 
 			element.bind('mousemove', function(event){
+				var currentTool = scope.tool
+				if(currentTool instanceof LineTool)
+				{
 
+				}
 			});
 
 			element.bind('mouseup', function(event){
+				var currentTool = scope.tool
+				if(currentTool instanceof LineTool)
+				{
 
+				}
 			});
 
 			function drawNode(x, y, nodeType, nodeDimension, nodeColor){
@@ -44,12 +51,24 @@ function(NodeTool, LineTool){
 						ctx.strokeStyle = nodeColor;
 						break;
 					case 'rectange':
+						ctx.beginPath();
+						ctx.rect(x,y, nodeDimension, nodeDimension);
+						ctx.fillStyle = nodeColor;
+						ctx.fill();
+						ctx.strokeStyle = nodeColor;
 						break;
 					case 'triangle':
+						ctx.beginPath();
+						ctx.moveTo(x,y);
+						ctx.lineTo(x + (nodeDimension / 2), y + (nodeDimension / 2));
+						ctx.lineTo(x - (nodeDimension / 2), y + (nodeDimension / 2));
+						ctx.fillStyle = nodeColor;
+						ctx.fill();
+						ctx.strokeStyle = nodeColor;
 						break;
 				}
-
 				ctx.stroke();
+				ctx.closePath();
 			}
 
 			function drawLine(nodeStart, nodeEnd, lineColor, lineThickness){
