@@ -1,3 +1,4 @@
+'use strict';
 var editorApp = angular.module('EditorApp',['ngRoute', 'EditorControllers', 'EditorServices', 'EditorDirectives']);
 
 editorApp.config(['$routeProvider',

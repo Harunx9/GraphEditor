@@ -1,3 +1,4 @@
+'use strict';
 var editorControllers = angular.module('EditorControllers',[]);
 
 
@@ -35,18 +36,18 @@ editorControllers.controller('EditorController',
 
 	$scope.nodeTool = function(){
 		$scope.tool = new NodeTool;
-		console.log($scope.tool);
+		console.log($scope.graph);
 	}
 
 	$scope.lineTool = function(){
 		$scope.tool = new LineTool;
-		console.log($scope.tool);
+		console.log($scope.graph);
 	}
 
 	$scope.handTool = function(){
 
 	}
-	console.log($scope.tool);
+
 }]);
 
 editorControllers.controller('UserController',
