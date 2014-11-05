@@ -3,13 +3,17 @@ var editorControllers = angular.module('EditorControllers',[]);
 
 
 editorControllers.controller('LoginController',
-	['$scope', '$location', '$http', 'UserService',
-	function($scope, $location, $http, UserService){
+	['$scope', '$location', '$http', 'UserService','ApiService',
+	function($scope, $location, $http, UserService, ApiService){
 
 	$scope.login = function(user){
-		$http.get('http://127.0.0.1:5000/api/user?p='+user)
-		.success(function(status){
-			UserService.isLogged = true;
+		var url = new ApiService;
+		url.model = 'user';
+		url.constructQuerry('name', 'eq', user.name);
+		$http.get(url.constructUrl())
+		.success(function(data,status){
+			if(data.objects.length !== 0)
+				UserService.isLogged = true;
 		});
 	}
 
@@ -52,7 +56,7 @@ editorControllers.controller('EditorController',
 editorControllers.controller('UserController',
 	['$scope', '$location',
 	function($scope, $location){
-		
+
 }]);
 
 editorControllers.controller('RegistrationController',

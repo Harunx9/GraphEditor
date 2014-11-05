@@ -10,7 +10,10 @@ function(NodeTool, LineTool){
 			var mouseX;
 			var mouseY;
 			var drawingLine = false;
-			
+
+			if(scope.graph.nodes.lenght != 0 || scope.graph.edges.lenght != 0)
+				loadGraph(scope.graph);
+
 			element.bind('mousedown', function(event){
 				var currentTool = scope.tool;
 				mouseX = event.offsetX;
@@ -49,6 +52,16 @@ function(NodeTool, LineTool){
 					drawingLine = false;
 				}
 			});
+
+			function loadGraph(graph){
+				graph.nodes.forEach(function(node){
+					drawNode(node.x, node.y, node.nodeType, node.dimension, node.color);
+				});
+
+				graph.edges.forEach(function(edge){
+					drawLine(edge.nodeStart, edge.nodeEnd, edge.color, edge.thickness);
+				});
+			}
 
 			function drawNode(x, y, nodeType, nodeDimension, nodeColor){
 				ctx.beginPath();
