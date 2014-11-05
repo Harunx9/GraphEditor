@@ -33,15 +33,14 @@ editorControllers.controller('EditorController',
 		}
 	}
 
-
 	$scope.nodeTool = function(){
-		$scope.tool = new NodeTool;
-		console.log($scope.graph);
+		if(!$scope.tool instanceof NodeTool)
+			$scope.tool = new NodeTool;
 	}
 
 	$scope.lineTool = function(){
-		$scope.tool = new LineTool;
-		console.log($scope.graph);
+		if(!$scope.tool instanceof LineTool)
+			$scope.tool = new LineTool;
 	}
 
 	$scope.handTool = function(){
@@ -53,7 +52,7 @@ editorControllers.controller('EditorController',
 editorControllers.controller('UserController',
 	['$scope', '$location',
 	function($scope, $location){
-
+		
 }]);
 
 editorControllers.controller('RegistrationController',

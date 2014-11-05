@@ -8,6 +8,7 @@ from models.models import db,  User, Scheme, ChangeLog
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 app.config['UPLOAD_FOLDER'] = '/uploads'
+app.secret_key='223322343242'
 db.init_app(app)
 db.app = app
 db.create_all()

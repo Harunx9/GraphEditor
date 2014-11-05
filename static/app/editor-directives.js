@@ -10,6 +10,7 @@ function(NodeTool, LineTool){
 			var mouseX;
 			var mouseY;
 			var drawingLine = false;
+			
 			element.bind('mousedown', function(event){
 				var currentTool = scope.tool;
 				mouseX = event.offsetX;
@@ -18,7 +19,8 @@ function(NodeTool, LineTool){
 				{
 					currentTool.x = mouseX;
 					currentTool.y = mouseY;
-					drawNode(mouseX, mouseY, currentTool.nodeType, currentTool.dimension, currentTool.color);
+					drawNode(mouseX, mouseY, currentTool.nodeType,
+						currentTool.dimension, currentTool.color);
 					scope.graph.nodes.push(angular.copy(currentTool));
 				}else if (currentTool instanceof LineTool){
 					var nodeStart = {
@@ -41,38 +43,31 @@ function(NodeTool, LineTool){
 						y: mouseY
 					}
 					currentTool.nodeEnd = nodeEnd;
-					drawLine(currentTool.nodeStart, currentTool.nodeEnd, currentTool.color, currentTool.thickness);
+					drawLine(currentTool.nodeStart, currentTool.nodeEnd,
+						currentTool.color, currentTool.thickness);
 					scope.graph.edges.push(angular.copy(currentTool));
 					drawingLine = false;
 				}
 			});
 
 			function drawNode(x, y, nodeType, nodeDimension, nodeColor){
+				ctx.beginPath();
 				switch(nodeType){
 					case 'circle':
-						ctx.beginPath();
 						ctx.arc(x, y, nodeDimension, 0, 2*Math.PI, false);
-						ctx.fillStyle = nodeColor;
-						ctx.fill();
-						ctx.strokeStyle = nodeColor;
 						break;
 					case 'rectange':
-						ctx.beginPath();
 						ctx.rect(x,y, nodeDimension, nodeDimension);
-						ctx.fillStyle = nodeColor;
-						ctx.fill();
-						ctx.strokeStyle = nodeColor;
 						break;
 					case 'triangle':
-						ctx.beginPath();
 						ctx.moveTo(x,y);
 						ctx.lineTo(x + (nodeDimension / 2), y + (nodeDimension / 2));
 						ctx.lineTo(x - (nodeDimension / 2), y + (nodeDimension / 2));
-						ctx.fillStyle = nodeColor;
-						ctx.fill();
-						ctx.strokeStyle = nodeColor;
 						break;
 				}
+				ctx.fillStyle = nodeColor;
+				ctx.fill();
+				ctx.strokeStyle = nodeColor;
 				ctx.stroke();
 				ctx.closePath();
 			}

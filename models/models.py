@@ -8,10 +8,11 @@ db = SQLAlchemy()
 class Scheme(db.Model):
     id = Column(Integer, primary_key=True)
     scheme_name = Column(String(255), unique=True)
+    scheme_body = Column(Text)
     creation_date = Column(DateTime)
     deleted = Column(Boolean)
 
-    def __init__(self, scheme_name):
+    def __init__(self, scheme_name=''):
         self.scheme_name = scheme_name
         self.datetime = datetime.utcnow()
 
@@ -25,7 +26,7 @@ class User(db.Model):
     password = Column(String(255))
     admin = Column(Boolean)
 
-    def __init__(self, name, password):
+    def __init__(self, name='', password=''):
         self.name = name
         self.password = password
 
@@ -38,7 +39,7 @@ class ChangeLog(db.Model):
     date = Column(DateTime)
     changes = Column(Text)
 
-    def __init__(self, changes):
+    def __init__(self, changes=''):
         self.date = datetime.utcnow()
         self.changes = changes
 
