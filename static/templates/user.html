@@ -5,12 +5,24 @@
 <div class="item-viev col-md-6">
 	<div ng-if="option === 'MyProjects'">
 		<div class="panel panel-primary">
-			<div class="panel-header">
+			<div class="panel-heading">
+				Your Projects
+			</div>
+			<div class="panel-body">
+				<div ng-repeat="project in userProject">
 
+				</div>
 			</div>
 		</div>
 	</div>
 	<div ng-if="option === 'NewProject'">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				New Project
+			</div>
+			<div class="panel-body">
 
+			</div>
+		</div>
 	</div>
 </div>

@@ -73,6 +73,7 @@ editorControllers.controller('UserController',
 		$scope.userProjects = undefined;
 		$scope.loadMessage = undefined;
 		$scope.option = 'MyProjects'
+
 		var api = new ApiService;
 		api.model = 'scheme';
 		api.constructQuerry('user_name','eq',UserService.login);
@@ -83,9 +84,18 @@ editorControllers.controller('UserController',
 				{
 						$scope.userProjects = data.objects;
 				}else{
-						$scope.loadMessage = 'You have no projects';
+						$scope.loadMessage = [{sheme_name:'You have no projects'}];
 				}
 		});
+
+		$scope.myProjects = function(){
+			$scope.option = 'MyProjects';
+		}
+
+		$scope.newProject = function(){
+			$scope.option = 'NewProject';
+		}
+
 }]);
 
 editorControllers.controller('RegistrationController',
