@@ -1,5 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text
+from sqlalchemy import ForeignKey, Column, Integer, String, Boolean, DateTime, Text
 from datetime import datetime
 
 db = SQLAlchemy()
@@ -9,15 +9,18 @@ class Scheme(db.Model):
     id = Column(Integer, primary_key=True)
     scheme_name = Column(String(255), unique=True)
     scheme_body = Column(Text)
+    user_name = Column(String(255), ForeignKey('user.name'))
+    user = db.relationship('User', backref= db.backref('schemes', lazy='dynamic'))
     creation_date = Column(DateTime)
     deleted = Column(Boolean)
 
-    def __init__(self, scheme_name=''):
+    def __init__(self, scheme_name='', scheme_body=''\
+                , creation_date='', deleted=''):
         self.scheme_name = scheme_name
         self.datetime = datetime.utcnow()
 
     def __repr__(self):
-        return '<Scheme %r>' % (self.scheme_name)
+        return ' %s ' % (self.scheme_name)
 
 
 class User(db.Model):
@@ -31,7 +34,7 @@ class User(db.Model):
         self.password = password
 
     def __repr__(self):
-        return '<User %r Password %r>' % (self.name, self.password)
+        return ' %s ' % (self.name)
 
 
 class ChangeLog(db.Model):
@@ -44,4 +47,4 @@ class ChangeLog(db.Model):
         self.changes = changes
 
     def __repr__(self):
-        return '<ChangeLog %r Date %r>' % (self.changes, self.date)
+        return ' %s %s ' % (self.changes, self.date)

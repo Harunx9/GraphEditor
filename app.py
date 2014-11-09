@@ -22,6 +22,10 @@ admin.add_view(ModelView(ChangeLog, db.session))
 def home():
     return render_template('index.html')
 
+@app.route('/userlogin', methods=['POST'])
+def login():
+    pass
+
 manager = APIManager(app, flask_sqlalchemy_db=db)
 manager.create_api(Scheme, methods=['GET', 'POST'])
 manager.create_api(User, methods=['PUT', 'GET','POST'])

@@ -23,7 +23,9 @@ editorServices.factory('ApiService', function(){
 
 editorServices.factory('UserService', function(){
 	var udo = {
-		isLogged: false,
+		login: '',
+		passoword: '',
+		isLogged: false
 	}
 
 	return udo;

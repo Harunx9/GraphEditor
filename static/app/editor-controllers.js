@@ -6,26 +6,30 @@ editorControllers.controller('LoginController',
 	['$scope', '$location', '$http', 'UserService','ApiService',
 	function($scope, $location, $http, UserService, ApiService){
 		$scope.isLogin = false
-
+		$scope.errorMessage = undefined;
 	$scope.login = function(user){
 		var url = new ApiService;
 		url.model = 'user';
 		url.constructQuerry('name', 'eq', user.name);
-		$http.get(url.constructUrl())
+		$http.get(url.constructUrl())//todo auth in python app by post method
 		.success(function(data,status){
-			if(data.objects.length !== 0)
+			if(data.objects.length !== 0){
+				UserService.login = user.name;
+				UserService.password = user.password;
 				UserService.isLogged = true;
 				$scope.isLogin = true;
-				$loacation.path('/user/'+user.name);
+				$location.path('/user/'+user.name);
+			}
 		})
 		.error(function(data, status){
-				//to do error message handling
+				$scope.errorMessage = 'login or password is incorrect';
 		});
 	}
 
 	$scope.logOut = function(){
 		UserService.isLogged = false;
 		$scope.isLogin = false;
+		$location.path('/');
 	}
 
 }]);
