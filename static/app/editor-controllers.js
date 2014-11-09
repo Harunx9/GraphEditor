@@ -41,9 +41,15 @@ editorControllers.controller('HomeController',
 
 editorControllers.controller('EditorController',
 	['$scope', '$location','NodeTool','LineTool','HandTool',
-	function($scope, $location, NodeTool, LineTool, HandTool){
+	'CanvasService',
+	function($scope, $location, NodeTool, LineTool, HandTool,
+		CanvasService){
+		$scope.canvasWidth = CanvasService.width;
+		$scope.canvasHeight = CanvasService.height;
+
 		$scope.tool = undefined;
 		$scope.graph = undefined;
+
 		if($scope.graph == undefined){
 			$scope.graph = {
 				nodes:[],
@@ -65,14 +71,20 @@ editorControllers.controller('EditorController',
 			if(!$scope.tool instanceof HandTool)
 				$scope.tool = new HandTool;
 		}
+
+		$scope.saveProject = function(){
+
+		}
 }]);
 
 editorControllers.controller('UserController',
 	['$scope', '$location', '$http', 'UserService', 'ApiService',
-	function($scope, $location, $http, UserService){
+	'CanvasService',
+	function($scope, $location, $http, UserService, ApiService,
+		CanvasService){
 		$scope.userProjects = undefined;
 		$scope.loadMessage = undefined;
-		$scope.option = 'MyProjects'
+		$scope.option = 'MyProjects';
 
 		var api = new ApiService;
 		api.model = 'scheme';
@@ -80,11 +92,10 @@ editorControllers.controller('UserController',
 
 		$http.get(api.constructUrl())
 		.success(function(data, status){
-				if(data.objects.length !== 0)
-				{
+				if(data.objects.length !== 0){
 						$scope.userProjects = data.objects;
 				}else{
-						$scope.loadMessage = [{sheme_name:'You have no projects'}];
+						$scope.loadMessage = [{scheme_name:'You have no projects'}];
 				}
 		});
 
@@ -96,6 +107,11 @@ editorControllers.controller('UserController',
 			$scope.option = 'NewProject';
 		}
 
+		$scope.createProject = function(project){
+			CanvasService.width = project.width;
+			CanvasService.height = project.height;
+
+		}
 }]);
 
 editorControllers.controller('RegistrationController',

@@ -36,7 +36,6 @@ editorServices.factory('CanvasService', function(){
 		width: 0,
 		height: 0
 	}
-
 	return dimension;
 });
 
