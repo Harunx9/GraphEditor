@@ -5,6 +5,7 @@ var editorControllers = angular.module('EditorControllers',[]);
 editorControllers.controller('LoginController',
 	['$scope', '$location', '$http', 'UserService','ApiService',
 	function($scope, $location, $http, UserService, ApiService){
+		$scope.isLogin = false
 
 	$scope.login = function(user){
 		var url = new ApiService;
@@ -14,7 +15,17 @@ editorControllers.controller('LoginController',
 		.success(function(data,status){
 			if(data.objects.length !== 0)
 				UserService.isLogged = true;
+				$scope.isLogin = true;
+				$loacation.path('/user/'+user.name);
+		})
+		.error(function(data, status){
+				//to do error message handling
 		});
+	}
+
+	$scope.logOut = function(){
+		UserService.isLogged = false;
+		$scope.isLogin = false;
 	}
 
 }]);
@@ -26,8 +37,8 @@ editorControllers.controller('HomeController',
 }]);
 
 editorControllers.controller('EditorController',
-	['$scope', '$location','NodeTool','LineTool',
-	function($scope, $location, NodeTool, LineTool){
+	['$scope', '$location','NodeTool','LineTool','HandTool',
+	function($scope, $location, NodeTool, LineTool, HandTool){
 	$scope.tool = undefined;
 	$scope.graph = undefined;
 	if($scope.graph == undefined){
@@ -48,7 +59,8 @@ editorControllers.controller('EditorController',
 	}
 
 	$scope.handTool = function(){
-
+		if(!$scope.tool instanceof HandTool)
+			$scope.tool = new HandTool;
 	}
 
 }]);
@@ -56,6 +68,7 @@ editorControllers.controller('EditorController',
 editorControllers.controller('UserController',
 	['$scope', '$location',
 	function($scope, $location){
+		$scope.userProjects = undefined;
 
 }]);
 

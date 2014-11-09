@@ -58,3 +58,11 @@ editorServices.factory('LineTool', function(){
 	}
 	return line;
 });
+
+editorServices.factory('HandTool', function(){
+	function hand(){
+		this.x = 0;
+		this.y = 0;
+	}
+	return hand;
+});
