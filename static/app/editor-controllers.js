@@ -58,17 +58,15 @@ editorControllers.controller('EditorController',
 		}
 
 		$scope.nodeTool = function(){
-			if(!$scope.tool instanceof NodeTool)
 				$scope.tool = new NodeTool;
 		}
 
 		$scope.lineTool = function(){
-			if(!$scope.tool instanceof LineTool)
+
 				$scope.tool = new LineTool;
 		}
 
 		$scope.handTool = function(){
-			if(!$scope.tool instanceof HandTool)
 				$scope.tool = new HandTool;
 		}
 
@@ -79,7 +77,7 @@ editorControllers.controller('EditorController',
 
 editorControllers.controller('UserController',
 	['$scope', '$location', '$http', 'UserService', 'ApiService',
-	'CanvasService',
+	'CanvasService',''
 	function($scope, $location, $http, UserService, ApiService,
 		CanvasService){
 		$scope.userProjects = undefined;
@@ -95,7 +93,7 @@ editorControllers.controller('UserController',
 				if(data.objects.length !== 0){
 						$scope.userProjects = data.objects;
 				}else{
-						$scope.loadMessage = [{scheme_name:'You have no projects'}];
+						$scope.loadMessage = 'You have no projects';
 				}
 		});
 
@@ -111,6 +109,7 @@ editorControllers.controller('UserController',
 			CanvasService.width = project.width;
 			CanvasService.height = project.height;
 
+			$location.path('/editor');
 		}
 }]);
 

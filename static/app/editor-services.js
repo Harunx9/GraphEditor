@@ -31,6 +31,15 @@ editorServices.factory('UserService', function(){
 	return udo;
 });
 
+editorServices.factory('ProjectService', function(){
+	var project = {
+		scheme_name:'new sheme',
+		scheme_body:'',
+		user_name:''
+	}
+	return project;
+});
+
 editorServices.factory('CanvasService', function(){
 	var dimension = {
 		width: 0,

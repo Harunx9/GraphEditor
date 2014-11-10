@@ -13,7 +13,8 @@
 				Your Projects
 			</div>
 			<div class="panel-body">
-				<div ng-repeat="project in userProject">
+				<div class="alert alert-info" role="alert" ng-if="loadMessage">{{loadMessage}}</div>
+				<div ng-repeat="project in userProjects">
 						{{project.scheme_name}}
 				</div>
 			</div>

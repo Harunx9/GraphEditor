@@ -7,15 +7,14 @@ function(NodeTool, LineTool){
 		restrict: 'A',
 		link: function(scope, element){
 			var ctx = element[0].getContext('2d');
+			console.log(element);
 			var mouseX;
 			var mouseY;
 			var drawingLine = false;
-
-			if(scope.graph.nodes.lenght != 0 || scope.graph.edges.lenght != 0)
-				loadGraph(scope.graph);
-
+			
 			element.bind('mousedown', function(event){
 				var currentTool = scope.tool;
+				console.log(currentTool);
 				mouseX = event.offsetX;
 				mouseY = event.offsetY;
 				if(currentTool instanceof NodeTool)
