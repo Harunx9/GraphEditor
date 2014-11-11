@@ -40,10 +40,10 @@ editorControllers.controller('HomeController',
 }]);
 
 editorControllers.controller('EditorController',
-	['$scope', '$location','NodeTool','LineTool','HandTool',
-	'CanvasService',
-	function($scope, $location, NodeTool, LineTool, HandTool,
-		CanvasService){
+	['$scope', '$location', '$http','NodeTool','LineTool','HandTool',
+	'CanvasService','ProjectService', 'UserService',
+	function($scope, $location, $http, NodeTool, LineTool, HandTool,
+		CanvasService, ProjectService, UserService){
 		$scope.canvasWidth = CanvasService.width;
 		$scope.canvasHeight = CanvasService.height;
 
@@ -51,10 +51,8 @@ editorControllers.controller('EditorController',
 		$scope.graph = undefined;
 
 		if($scope.graph == undefined){
-			$scope.graph = {
-				nodes:[],
-				edges:[]
-			}
+			$scope.graph = ProjectService.scheme_body;
+			console.log($scope.graph);
 		}
 
 		$scope.nodeTool = function(){
@@ -71,15 +69,24 @@ editorControllers.controller('EditorController',
 		}
 
 		$scope.saveProject = function(){
-
+			ProjectService.scheme_body = JSON.stringify($scope.graph);
+			ProjectService.creation_date = new Date();
+			console.log(angular.copy(ProjectService));
+			$http.post('http://127.0.0.1:5000/api/scheme', angular.copy(ProjectService))
+			.success(function(data, status){
+				$location.path('/user/'+UserService.login)
+			})
+			.error(function(data, status){
+				//TODO error handling
+			});
 		}
 }]);
 
 editorControllers.controller('UserController',
 	['$scope', '$location', '$http', 'UserService', 'ApiService',
-	'CanvasService',''
+	'CanvasService','ProjectService',
 	function($scope, $location, $http, UserService, ApiService,
-		CanvasService){
+		CanvasService, ProjectService){
 		$scope.userProjects = undefined;
 		$scope.loadMessage = undefined;
 		$scope.option = 'MyProjects';
@@ -108,8 +115,24 @@ editorControllers.controller('UserController',
 		$scope.createProject = function(project){
 			CanvasService.width = project.width;
 			CanvasService.height = project.height;
-
+			ProjectService.scheme_name = project.name;
+			ProjectService.user_name = UserService.login;
+			ProjectService.scheme_body = {
+				nodes:[],
+				edges:[]
+			}
 			$location.path('/editor');
+		}
+
+		$scope.loadProject = function(project_id){
+			$http.get("http://127.0.0.1:5000/api/scheme/"+project_id)
+			.success(function(data, status){
+				ProjectService = data;
+				$location.path('/editor');
+			})
+			.error(function(data, status){
+				//TODO error handling
+			});
 		}
 }]);
 
@@ -120,7 +143,7 @@ editorControllers.controller('RegistrationController',
 	$scope.register = function(user){
 		$http.post('http://127.0.0.1:5000/api/user', user)
 		.success(function(data, status){
-			console.log(status)
+			$location.path('/');
 		})
 		.error(function(data, status){
 			console.log(status)

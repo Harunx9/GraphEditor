@@ -34,8 +34,10 @@ editorServices.factory('UserService', function(){
 editorServices.factory('ProjectService', function(){
 	var project = {
 		scheme_name:'new sheme',
-		scheme_body:'',
-		user_name:''
+		scheme_body:null,
+		user_name:'',
+		creation_date:null,
+		deleted:false
 	}
 	return project;
 });

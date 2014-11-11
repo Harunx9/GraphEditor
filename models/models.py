@@ -15,9 +15,12 @@ class Scheme(db.Model):
     deleted = Column(Boolean)
 
     def __init__(self, scheme_name='', scheme_body=''\
-                , creation_date='', deleted=''):
+                , creation_date='', deleted='', user_name=''):
         self.scheme_name = scheme_name
-        self.datetime = datetime.utcnow()
+        self.scheme_body = scheme_body
+        self.creation_date = datetime.utcnow()
+        self.deleted = deleted
+        self.user_name = user_name;
 
     def __repr__(self):
         return ' %s ' % (self.scheme_name)
@@ -25,7 +28,7 @@ class Scheme(db.Model):
 
 class User(db.Model):
     id = Column(Integer, primary_key=True)
-    name = Column(String(255))
+    name = Column(String(255), unique=True)
     password = Column(String(255))
     admin = Column(Boolean)
 

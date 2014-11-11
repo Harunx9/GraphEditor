@@ -1,6 +1,6 @@
 <div class="left-menu col-md-1">
 	<div class="row">
-		<button class="btn btn-primary" ng-click='myProjects()'>My projects</button>
+		<button class="btn btn-mybtn" ng-click='myProjects()'>My projects</button>
 	</div>
 	<div class="row">
 		<button class="btn btn-primary" ng-click='newProject()'>New Graph</button>
@@ -14,9 +14,24 @@
 			</div>
 			<div class="panel-body">
 				<div class="alert alert-info" role="alert" ng-if="loadMessage">{{loadMessage}}</div>
-				<div ng-repeat="project in userProjects">
-						{{project.scheme_name}}
-				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Project Name</th>
+							<th>Creation Date</th>
+							<th>Load</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="project in userProjects">
+							<td>{{project.id}}</td>
+							<td>{{project.scheme_name}}</td>
+							<td>{{project.creation_date}}</td>
+							<td><button class="btn btn-default" ng-click="loadProject(project.id)">Load</button></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
