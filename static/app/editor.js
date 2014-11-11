@@ -12,7 +12,7 @@ editorApp.config(['$routeProvider',
 			templateUrl: 'static/templates/editor.html',
 			controller: 'EditorController'
 		}).
-		when('/user/:nick',{
+		when('/user',{
 			templateUrl: 'static/templates/user.html',
 			controller: 'UserController'
 		}).

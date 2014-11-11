@@ -45,7 +45,7 @@ class User(db.Model):
         return ' %s ' % (self.name)
 
 
-class ChangeLog(db.Model):
+class Log(db.Model):
     id = Column(Integer, primary_key=True)
     date = Column(DateTime)
     changes = Column(Text)

@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask.ext.restless import APIManager
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib.sqla import ModelView
-from models.models import db,  User, Scheme, ChangeLog
+from models.models import db,  User, Scheme, Log
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
@@ -15,7 +15,7 @@ db.create_all()
 admin = Admin(app)
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Scheme, db.session))
-admin.add_view(ModelView(ChangeLog, db.session))
+admin.add_view(ModelView(Log, db.session))
 
 
 @app.route('/')
@@ -29,7 +29,7 @@ def login():
 manager = APIManager(app, flask_sqlalchemy_db=db)
 manager.create_api(Scheme, methods=['GET', 'POST'])
 manager.create_api(User, methods=['PUT', 'GET','POST', 'DELETE'])
-manager.create_api(ChangeLog, methods=['GET'])
+manager.create_api(Log, methods=['GET'])
 
 
 if __name__ == '__main__':

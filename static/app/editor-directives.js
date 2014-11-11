@@ -50,6 +50,16 @@ function(NodeTool, LineTool){
 				}
 			});
 
+			function init(){
+				ctx.canvas.width = scope.canvasWidth;
+				ctx.canvas.height = scope.canvasHeight;
+				if(scope.graph.nodes.length !== 0 || scope.graph.edges.length !== 0){
+					loadGraph(scope.graph);
+				}
+			}
+
+			init();
+
 			function loadGraph(graph){
 				graph.nodes.forEach(function(node){
 					drawNode(node.x, node.y, node.nodeType, node.dimension, node.color);

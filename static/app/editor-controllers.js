@@ -7,6 +7,7 @@ editorControllers.controller('LoginController',
 	function($scope, $location, $http, UserService, ApiService){
 		$scope.isLogin = false
 		$scope.errorMessage = undefined;
+
 		$scope.login = function(user){
 			var url = new ApiService;
 			url.model = 'user';
@@ -18,7 +19,7 @@ editorControllers.controller('LoginController',
 					UserService.password = user.password;
 					UserService.isLogged = true;
 					$scope.isLogin = true;
-					$location.path('/user/'+user.name);
+					$location.path('/user');
 				}
 			})
 			.error(function(data, status){
@@ -49,7 +50,6 @@ editorControllers.controller('EditorController',
 
 		$scope.tool = undefined;
 		$scope.graph = undefined;
-
 		if($scope.graph == undefined){
 			$scope.graph = ProjectService.scheme_body;
 		}
@@ -74,7 +74,7 @@ editorControllers.controller('EditorController',
 			ProjectService.project_height = $scope.canvasHeight;
 			$http.post('http://127.0.0.1:5000/api/scheme', angular.copy(ProjectService))
 			.success(function(data, status){
-				$location.path('/user/'+UserService.login)
+				$location.path('/user')
 			})
 			.error(function(data, status){
 				//TODO error handling
@@ -127,8 +127,13 @@ editorControllers.controller('UserController',
 		$scope.loadProject = function(project_id){
 			$http.get("http://127.0.0.1:5000/api/scheme/"+project_id)
 			.success(function(data, status){
-				ProjectService = data;
-				ProjectService.scheme_body = JSON.parse(ProjectService.scheme_body);
+				ProjectService.scheme_name = data.scheme_name;
+				ProjectService.scheme_body = JSON.parse(data.scheme_body);
+				ProjectService.user_name = data.user_name;
+				ProjectService.deleted = data.deleted;
+				ProjectService.creation_date = data.creation_date;
+				ProjectService.project_width = data.project_width;
+				ProjectService.project_height = data.project_height;
 				CanvasService.width = data.project_width;
 				CanvasService.height = data.project_height;
 				$location.path('/editor');
@@ -162,7 +167,7 @@ editorControllers.controller('ChangeLogController',
 	['$scope', '$http', '$location',
 	function($scope, $http, $location){
 			$scope.changeLog = undefined;
-			$http.get('http://127.0.0.1:5000/api/changelog')
+			$http.get('http://127.0.0.1:5000/api/log')
 			.success(function(data, status){
 				$scope.changeLog = data.objects;
 			})
