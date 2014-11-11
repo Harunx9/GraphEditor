@@ -1,4 +1,7 @@
 <h2>Welcome and register</h2>
+<div ng-if="errorMessage !== undefined">
+	<div class="alert alert-danger" role="alert">{{errorMessage}}</div>
+</div>
 <form role="form">
 	<div class="form-group">
 		<label for="userName">Your Name</label>

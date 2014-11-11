@@ -1,0 +1,24 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    Change Log
+  </div>
+  <div class="panel-body">
+    <div ng-if="errorMessage !== undefined">
+      <div class="alert alert-info" role="alert">{{errorMessage}}</div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="change in changeLog">
+          <td>{{change.date}}</td>
+          <td>{{change.changes}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

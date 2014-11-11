@@ -37,6 +37,8 @@ editorServices.factory('ProjectService', function(){
 		scheme_body:null,
 		user_name:'',
 		creation_date:null,
+		project_width:'',
+		project_height:'',
 		deleted:false
 	}
 	return project;

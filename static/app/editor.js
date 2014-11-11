@@ -19,5 +19,9 @@ editorApp.config(['$routeProvider',
 		when('/register',{
 			templateUrl: 'static/templates/registration.html',
 			controller: 'RegistrationController'
+		}).
+		when('/changelog',{
+			templateUrl: 'static/templates/changelog.html',
+			controller: 'ChangeLogController'
 		});
 }]);
