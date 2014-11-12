@@ -27,8 +27,8 @@ def login():
     pass
 
 manager = APIManager(app, flask_sqlalchemy_db=db)
-manager.create_api(Scheme, methods=['GET', 'POST'])
-manager.create_api(User, methods=['PUT', 'GET','POST', 'DELETE'])
+manager.create_api(Scheme, methods=['GET', 'POST', 'PUT', 'DELETE'], exclude_columns=['user'])
+manager.create_api(User, methods=['PUT', 'GET','POST', ], exclude_columns=['schemes'])
 manager.create_api(Log, methods=['GET'])
 
 
