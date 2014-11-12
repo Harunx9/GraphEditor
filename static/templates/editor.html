@@ -1,18 +1,39 @@
-<div id="editor">
-	<div class="canvas-tools md-col-3">
-		<button class="btn btn-primary" ng-click="saveProject()" >
-			<span class="glyphicon glyphicon-floppy-save"></span>
-		</button>
-		<div class="row">
+<div class="row row-separator">
+	<div class="col-md-12">
+	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	    File <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	    <li><a ng-click="saveProject()">Save</a></li>
+	    <li><a ng-click="updateProject()">Update</a></li>
+	  </ul>
+	</div>
+</div>
+<div class="row row-separator">
+	<div class="col-md-2">
 			<button class="btn btn-primary" ng-click="nodeTool()" >
-				<span class="node-ico"></span>
+				<span class="glyphicon glyphicon-record"></span>
 			</button>
 			<button class="btn btn-primary" ng-click="lineTool()">
-				<span class="edge-ico"></span>
+				<span class="glyphicon glyphicon-pencil"></span>
 			</button>
-		</div>
+			<button class="btn btn-primary" ng-click="handTool()">
+				<span class="glyphicon glyphicon-hand-left"></span>
+			</button>
+			<div ng-if="tool !== undefined || tool instanceof HandTool">
+				<form role="form">
+					<div ng-if="tool instanceof NodeTool">
+						<div class="form-group">
+
+						</div>
+					</div>
+					<div ng-if="tool instanceof LineTool">
+
+					</div>
+				</form>
+			</div>
 	</div>
-	<div class="canvas-border md-col-9">
-		<canvas drawgraph></canvas>
+	<div class="col-md-10">
+			<canvas class="canvas-container" drawgraph></canvas>
 	</div>
 </div>

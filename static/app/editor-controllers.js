@@ -80,6 +80,10 @@ editorControllers.controller('EditorController',
 				//TODO error handling
 			});
 		}
+
+		$scope.updateProject = function(){
+
+		}
 }]);
 
 editorControllers.controller('UserController',
