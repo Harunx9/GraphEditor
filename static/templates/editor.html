@@ -25,7 +25,14 @@
 					<div ng-if="toolOption === 'NodeTool'">
 						<div class="form-group">
 							<label for="nodetype">Node type:</label>
-
+							<div class="btn-group">
+								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								    Action <span class="caret"></span>
+								  </button>
+								  <ul class="dropdown-menu" role="menu">
+								 
+								  </ul>
+								</div>
 						</div>
 						<div class="form-group">
 							<label for="dimension">Size:</label>
@@ -34,10 +41,8 @@
 					</div>
 					<div ng-if="toolOption === 'LineTool'">
 						<div class="form-group">
-							<div class="form-control">
 								<label for="thickness">Size:</label>
 								<input type="text" ng-model="tool.thickness" class="form-control">
-							</div>
 						</div>
 					</div>
 				</form>

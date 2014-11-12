@@ -44,7 +44,7 @@ editorControllers.controller('EditorController',
 	['$scope', '$location', '$http','NodeTool','LineTool','HandTool',
 	'CanvasService','ProjectService', 'UserService', 'UpdateService',
 	function($scope, $location, $http, NodeTool, LineTool, HandTool,
-		CanvasService, ProjectService, UserService){
+		CanvasService, ProjectService, UserService, UpdateService){
 		$scope.canvasWidth = CanvasService.width;
 		$scope.canvasHeight = CanvasService.height;
 
@@ -85,13 +85,13 @@ editorControllers.controller('EditorController',
 		}
 
 		$scope.updateProject = function(){
-			Project.scheme_body = JSON.stringify($scope.graph);
+			ProjectService.scheme_body = JSON.stringify($scope.graph);
 			$http.put('http://127.0.0.1:5000/api/scheme/'+UpdateService.id, angular.copy(ProjectService))
 			.success(function(data, status){
-
+				$location.path('/user');
 			})
 			.error(function(data, status){
-
+				//TODO error handling
 			});
 		}
 }]);
