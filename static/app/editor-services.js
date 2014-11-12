@@ -21,6 +21,14 @@ editorServices.factory('ApiService', function(){
 	return apiService
 });
 
+editorServices.factory('UpdateService',function(){
+	var updateid = {
+		id:0,
+		toUpdate:false
+	}
+	return updateid;
+});
+
 editorServices.factory('UserService', function(){
 	var udo = {
 		login: '',
@@ -33,7 +41,6 @@ editorServices.factory('UserService', function(){
 
 editorServices.factory('ProjectService', function(){
 	var project = {
-		id:0,
 		scheme_name:'new sheme',
 		scheme_body:null,
 		user_name:'',

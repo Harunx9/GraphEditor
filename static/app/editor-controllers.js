@@ -42,28 +42,31 @@ editorControllers.controller('HomeController',
 
 editorControllers.controller('EditorController',
 	['$scope', '$location', '$http','NodeTool','LineTool','HandTool',
-	'CanvasService','ProjectService', 'UserService',
+	'CanvasService','ProjectService', 'UserService', 'UpdateService',
 	function($scope, $location, $http, NodeTool, LineTool, HandTool,
 		CanvasService, ProjectService, UserService){
 		$scope.canvasWidth = CanvasService.width;
 		$scope.canvasHeight = CanvasService.height;
 
 		$scope.tool = undefined;
+		$scope.toolOption = undefined;
 		$scope.graph = undefined;
 		if($scope.graph == undefined){
 			$scope.graph = ProjectService.scheme_body;
 		}
 
 		$scope.nodeTool = function(){
+				$scope.toolOption = 'NodeTool';
 				$scope.tool = new NodeTool;
 		}
 
 		$scope.lineTool = function(){
-
+				$scope.toolOption = 'LineTool';
 				$scope.tool = new LineTool;
 		}
 
 		$scope.handTool = function(){
+				$scope.toolOption = undefined;
 				$scope.tool = new HandTool;
 		}
 
@@ -82,15 +85,22 @@ editorControllers.controller('EditorController',
 		}
 
 		$scope.updateProject = function(){
+			Project.scheme_body = JSON.stringify($scope.graph);
+			$http.put('http://127.0.0.1:5000/api/scheme/'+UpdateService.id, angular.copy(ProjectService))
+			.success(function(data, status){
 
+			})
+			.error(function(data, status){
+
+			});
 		}
 }]);
 
 editorControllers.controller('UserController',
 	['$scope', '$location', '$http', 'UserService', 'ApiService',
-	'CanvasService','ProjectService',
+	'CanvasService','ProjectService', 'UpdateService',
 	function($scope, $location, $http, UserService, ApiService,
-		CanvasService, ProjectService){
+		CanvasService, ProjectService, UpdateService){
 		$scope.userProjects = undefined;
 		$scope.loadMessage = undefined;
 		$scope.option = 'MyProjects';
@@ -119,6 +129,8 @@ editorControllers.controller('UserController',
 		$scope.createProject = function(project){
 			CanvasService.width = project.width;
 			CanvasService.height = project.height;
+			UpdateService.id = 0;
+			UpdateService.toUpdate = false;
 			ProjectService.scheme_name = project.name;
 			ProjectService.user_name = UserService.login;
 			ProjectService.scheme_body = {
@@ -131,6 +143,8 @@ editorControllers.controller('UserController',
 		$scope.loadProject = function(project_id){
 			$http.get("http://127.0.0.1:5000/api/scheme/"+project_id)
 			.success(function(data, status){
+				UpdateService.id = project_id;
+				UpdateService.toUpdate = true;
 				ProjectService.scheme_name = data.scheme_name;
 				ProjectService.scheme_body = JSON.parse(data.scheme_body);
 				ProjectService.user_name = data.user_name;
@@ -144,6 +158,16 @@ editorControllers.controller('UserController',
 			})
 			.error(function(data, status){
 				//TODO error handling
+			});
+		}
+
+		$scope.deleteProject = function(project_id){
+			$http.delete('http://127.0.0.1:5000/api/scheme/'+project_id)
+			.success(function(data, status){
+				//delete $scope.userProjects[project_id];
+			})
+			.error(function(data, status){
+
 			});
 		}
 }]);

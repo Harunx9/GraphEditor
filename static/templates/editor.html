@@ -20,15 +20,25 @@
 			<button class="btn btn-primary" ng-click="handTool()">
 				<span class="glyphicon glyphicon-hand-left"></span>
 			</button>
-			<div ng-if="tool !== undefined || tool instanceof HandTool">
+			<div ng-if="toolOption !== undefined">
 				<form role="form">
-					<div ng-if="tool instanceof NodeTool">
+					<div ng-if="toolOption === 'NodeTool'">
 						<div class="form-group">
+							<label for="nodetype">Node type:</label>
 
 						</div>
+						<div class="form-group">
+							<label for="dimension">Size:</label>
+							<input class="form-control" ng-model="tool.dimension" type="text">
+						</div>
 					</div>
-					<div ng-if="tool instanceof LineTool">
-
+					<div ng-if="toolOption === 'LineTool'">
+						<div class="form-group">
+							<div class="form-control">
+								<label for="thickness">Size:</label>
+								<input type="text" ng-model="tool.thickness" class="form-control">
+							</div>
+						</div>
 					</div>
 				</form>
 			</div>

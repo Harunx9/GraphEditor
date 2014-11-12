@@ -17,18 +17,18 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>Id</th>
 							<th>Project Name</th>
 							<th>Creation Date</th>
 							<th>Load</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="project in userProjects">
-							<td>{{project.id}}</td>
 							<td>{{project.scheme_name}}</td>
 							<td>{{project.creation_date}}</td>
 							<td><button class="btn btn-default" ng-click="loadProject(project.id)">Load</button></td>
+							<td><button class="btn btn-danger" ng-click="deleteProject(project.id)">Delete</button></td>
 						</tr>
 					</tbody>
 				</table>
