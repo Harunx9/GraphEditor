@@ -1,5 +1,5 @@
 'use strict';
-var editorApp = angular.module('EditorApp',['ngRoute', 'EditorControllers', 'EditorServices', 'EditorDirectives']);
+var editorApp = angular.module('EditorApp',['ngRoute', 'colorpicker.module', 'EditorControllers', 'EditorServices', 'EditorDirectives']);
 
 editorApp.config(['$routeProvider',
 	function($routeProvider) {
