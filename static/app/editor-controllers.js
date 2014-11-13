@@ -55,6 +55,10 @@ editorControllers.controller('EditorController',
 			$scope.graph = ProjectService.scheme_body;
 		}
 
+		$scope.changeNodeType = function(nodeType){
+			$scope.tool.nodeType = nodeType;
+		}
+
 		$scope.nodeTool = function(){
 				$scope.toolOption = 'NodeTool';
 				$scope.tool = new NodeTool;

@@ -76,7 +76,7 @@ function(NodeTool, LineTool){
 					case 'circle':
 						ctx.arc(x, y, nodeDimension, 0, 2*Math.PI, false);
 						break;
-					case 'rectange':
+					case 'rectangle':
 						ctx.rect(x,y, nodeDimension, nodeDimension);
 						break;
 					case 'triangle':
