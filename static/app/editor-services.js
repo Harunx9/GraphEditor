@@ -31,8 +31,7 @@ editorServices.factory('UpdateService',function(){
 
 editorServices.factory('UserService', function(){
 	var udo = {
-		login: '',
-		passoword: '',
+		user_name:'',
 		isLogged: false
 	}
 

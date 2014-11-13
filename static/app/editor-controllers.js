@@ -9,26 +9,21 @@ editorControllers.controller('LoginController',
 		$scope.errorMessage = undefined;
 
 		$scope.login = function(user){
-			var url = new ApiService;
-			url.model = 'user';
-			url.constructQuerry('name', 'eq', user.name);
-			$http.get(url.constructUrl())//todo auth in python app by post method
-			.success(function(data,status){
-				if(data.objects.length !== 0){
-					UserService.login = user.name;
-					UserService.password = user.password;
-					UserService.isLogged = true;
-					$scope.isLogin = true;
-					$location.path('/user');
-				}
+			$http.post('http://127.0.0.1:5000/userlogin', angular.copy(user))
+			.success(function(data, status){
+				$scope.isLogin = data.isLogged;
+				UserService.isLogged = data.isLogged;
+				UserService.user_name = data.user_name;
+				$location.path('/user');
 			})
 			.error(function(data, status){
-					$scope.errorMessage = 'login or password is incorrect';
+				$scope.errorMessage = 'login or password is incorrect';
 			});
 		}
 
 		$scope.logOut = function(){
 			UserService.isLogged = false;
+			UserService.user_name = '';
 			$scope.isLogin = false;
 			$location.path('/');
 		}
@@ -45,6 +40,8 @@ editorControllers.controller('EditorController',
 	'CanvasService','ProjectService', 'UserService', 'UpdateService',
 	function($scope, $location, $http, NodeTool, LineTool, HandTool,
 		CanvasService, ProjectService, UserService, UpdateService){
+	if(UserService.isLogged)
+	{
 		$scope.canvasWidth = CanvasService.width;
 		$scope.canvasHeight = CanvasService.height;
 
@@ -98,6 +95,9 @@ editorControllers.controller('EditorController',
 				//TODO error handling
 			});
 		}
+	}else{
+		$location.path('/');
+	}
 }]);
 
 editorControllers.controller('UserController',
@@ -105,13 +105,15 @@ editorControllers.controller('UserController',
 	'CanvasService','ProjectService', 'UpdateService',
 	function($scope, $location, $http, UserService, ApiService,
 		CanvasService, ProjectService, UpdateService){
+	if(UserService.isLogged)
+	{
 		$scope.userProjects = undefined;
 		$scope.loadMessage = undefined;
 		$scope.option = 'MyProjects';
 
 		var api = new ApiService;
 		api.model = 'scheme';
-		api.constructQuerry('user_name','eq',UserService.login);
+		api.constructQuerry('user_name','eq',UserService.user_name);
 
 		$http.get(api.constructUrl())
 		.success(function(data, status){
@@ -174,6 +176,9 @@ editorControllers.controller('UserController',
 
 			});
 		}
+	}else{
+		$location.path('/');
+	}
 }]);
 
 editorControllers.controller('RegistrationController',
