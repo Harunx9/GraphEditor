@@ -1,8 +1,8 @@
 'use strict';
 var editorDirectives = angular.module('EditorDirectives', []);
 
-editorDirectives.directive('drawgraph',['NodeTool', 'LineTool',
-function(NodeTool, LineTool){
+editorDirectives.directive('drawgraph',['NodeTool', 'LineTool', 'HandTool',
+function(NodeTool, LineTool, HandTool){
 	return{
 		restrict: 'A',
 		link: function(scope, element){
@@ -10,6 +10,7 @@ function(NodeTool, LineTool){
 			var mouseX;
 			var mouseY;
 			var drawingLine = false;
+			var dragged = false;
 
 			element.bind('mousedown', function(event){
 				var currentTool = scope.tool;
@@ -29,6 +30,23 @@ function(NodeTool, LineTool){
 					}
 					currentTool.nodeStart = nodeStart;
 					drawingLine = true;
+				}else if(currentTool instanceof HandTool){
+						currentTool.selected_object = checkIfIobjectIsClicked(mouseX, mouseY);
+						console.log(currentTool.selected_object);
+						if(currentTool.selected_object != null)dragged = true;
+				}
+			});
+
+			element.bind('mousemove', function(event){
+				var currentTool = scope.tool;
+				if(currentTool instanceof HandTool && dragged)
+				{
+					if(currentTool.selected_object.type == 'node')
+					{
+								currentTool.selected_object.obj.x = mouseX;
+								currentTool.selected_object.obj.y = mouseY;
+					}
+					ctx.canvas.redraw();
 				}
 			});
 
@@ -47,6 +65,9 @@ function(NodeTool, LineTool){
 						currentTool.color, currentTool.thickness);
 					scope.graph.edges.push(angular.copy(currentTool));
 					drawingLine = false;
+				}else if(currentTool instanceof HandTool){
+					currentTool.selected_object = null;
+					dragged = false;
 				}
 			});
 
@@ -59,6 +80,25 @@ function(NodeTool, LineTool){
 			}
 
 			init();
+
+			function checkIfIobjectIsClicked(x, y){
+				var onX = false;
+				var onY = false;
+				scope.graph.nodes.forEach(function(node){
+					console.log('mouse x: '+x);console.log('node x: '+node.x + (node.dimension /2));
+					if(x < (node.x + (node.dimension /2))
+						&& x > (node.x - (node.dimension /2))){
+							onX = true
+							console.log('onX');
+						}
+					if(y < (node.y + (node.dimension /2))
+						&& y > (node.y - (node.dimension /2))){
+							onY = true
+							console.log('onY');
+						}
+					if(onX && onY) return {obj: node, type:'node'};
+				});
+			}
 
 			function loadGraph(graph){
 				graph.nodes.forEach(function(node){

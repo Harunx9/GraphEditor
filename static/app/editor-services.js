@@ -82,8 +82,7 @@ editorServices.factory('LineTool', function(){
 
 editorServices.factory('HandTool', function(){
 	function hand(){
-		this.x = 0;
-		this.y = 0;
+		this.selected_object = null;
 	}
 	return hand;
 });

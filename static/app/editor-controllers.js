@@ -3,8 +3,8 @@ var editorControllers = angular.module('EditorControllers',[]);
 
 
 editorControllers.controller('LoginController',
-	['$scope', '$location', '$http', 'UserService','ApiService',
-	function($scope, $location, $http, UserService, ApiService){
+	['$scope', '$location', '$http', 'UserService',
+	function($scope, $location, $http, UserService){
 		$scope.isLogin = false
 		$scope.errorMessage = undefined;
 
@@ -138,7 +138,7 @@ editorControllers.controller('UserController',
 			UpdateService.id = 0;
 			UpdateService.toUpdate = false;
 			ProjectService.scheme_name = project.name;
-			ProjectService.user_name = UserService.login;
+			ProjectService.user_name = UserService.user_name;
 			ProjectService.scheme_body = {
 				nodes:[],
 				edges:[]
