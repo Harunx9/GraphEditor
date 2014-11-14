@@ -21,6 +21,14 @@ editorServices.factory('ApiService', function(){
 	return apiService
 });
 
+editorServices.factory('MessageService', function(){
+	var message = {
+		from:'',
+		msg:''
+	}
+	return message;
+});
+
 editorServices.factory('UpdateService',function(){
 	var updateid = {
 		id:0,
@@ -85,4 +93,11 @@ editorServices.factory('HandTool', function(){
 		this.selected_object = null;
 	}
 	return hand;
+});
+
+editorServices.factory('DeleteTool', function(){
+	function deleteTool(){
+		this.delete_object = null;
+	}
+	return deleteTool;
 });

@@ -3,3 +3,16 @@
 	<p> Register yourself to use app</p>
 	<a href="#/register" class="btn btn-primary">Register</a>
 </div>
+<div class="col-md-12">
+	<div ng-if="errorMessage !== undefined">
+		<div class="alert alert-info" role="alert">{{errorMessage}}</div>
+	</div>
+	<div ng-if="changes !== undefined">
+		<div ng-repeat="change in changes">
+			<div class="col-md-4">
+				<h2>{{change.date}}</h2>
+				<p>{{change.changes}}</p>
+			</div>
+		</div>
+	</div>
+</div>

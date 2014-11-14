@@ -1,8 +1,9 @@
 'use strict';
 var editorDirectives = angular.module('EditorDirectives', []);
 
-editorDirectives.directive('drawgraph',['NodeTool', 'LineTool', 'HandTool',
-function(NodeTool, LineTool, HandTool){
+editorDirectives.directive('drawgraph',
+	['NodeTool', 'LineTool', 'HandTool', 'DeleteTool',
+function(NodeTool, LineTool, HandTool, DeleteTool){
 	return{
 		restrict: 'A',
 		link: function(scope, element){
@@ -32,8 +33,10 @@ function(NodeTool, LineTool, HandTool){
 					drawingLine = true;
 				}else if(currentTool instanceof HandTool){
 						currentTool.selected_object = checkIfIobjectIsClicked(mouseX, mouseY);
-						console.log(currentTool.selected_object);
 						if(currentTool.selected_object != null)dragged = true;
+				}else if(currentTool instanceof DeleteTool){
+						deleteElement(mouseX, mouseY);
+						redraw();
 				}
 			});
 
@@ -43,10 +46,10 @@ function(NodeTool, LineTool, HandTool){
 				{
 					if(currentTool.selected_object.type == 'node')
 					{
-								currentTool.selected_object.obj.x = mouseX;
-								currentTool.selected_object.obj.y = mouseY;
+								currentTool.selected_object.obj.x = event.offsetX;
+								currentTool.selected_object.obj.y = event.offsetY;
 					}
-					ctx.canvas.redraw();
+					redraw();
 				}
 			});
 
@@ -81,23 +84,54 @@ function(NodeTool, LineTool, HandTool){
 
 			init();
 
-			function checkIfIobjectIsClicked(x, y){
+			function redraw(){
+				ctx.canvas.width = scope.canvasWidth;
+				loadGraph(scope.graph);
+			}
+
+			function deleteElement(x, y){
 				var onX = false;
 				var onY = false;
-				scope.graph.nodes.forEach(function(node){
-					console.log('mouse x: '+x);console.log('node x: '+node.x + (node.dimension /2));
+				for (var i = 0; i < scope.graph.nodes.length; i++) {
+					var node = scope.graph.nodes[i];
 					if(x < (node.x + (node.dimension /2))
 						&& x > (node.x - (node.dimension /2))){
-							onX = true
-							console.log('onX');
+							onX = true;
 						}
 					if(y < (node.y + (node.dimension /2))
 						&& y > (node.y - (node.dimension /2))){
-							onY = true
-							console.log('onY');
+							onY = true;
 						}
-					if(onX && onY) return {obj: node, type:'node'};
-				});
+					if(onX && onY){
+						scope.graph.nodes.splice(i,1);
+					}
+				}
+				console.log(scope.graph);
+			}
+
+			function checkIfIobjectIsClicked(x, y){
+				var onX = false;
+				var onY = false;
+				for (var i = 0; i < scope.graph.nodes.length; i++) {
+					var node = scope.graph.nodes[i];
+					if(x < (node.x + (node.dimension /2))
+						&& x > (node.x - (node.dimension /2))){
+							onX = true;
+						}
+					if(y < (node.y + (node.dimension /2))
+						&& y > (node.y - (node.dimension /2))){
+							onY = true;
+						}
+					if(onX && onY){
+						return {obj: node, type:'node'};
+					}
+				}
+
+				for (var i = 0; i < scope.graph.edges.length; i++) {
+					var line = scope.graph.edges[i];
+
+				}
+
 			}
 
 			function loadGraph(graph){

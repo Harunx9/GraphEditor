@@ -30,16 +30,29 @@ editorControllers.controller('LoginController',
 }]);
 
 editorControllers.controller('HomeController',
-	['$scope', '$location',
-	function($scope, $location){
-
+	['$scope', '$location', '$http',
+	function($scope, $location, $http){
+		$scope.changes = undefined;
+		$scope.errorMessage = undefined;
+		$http.get('http://127.0.0.1:5000/api/log')
+		.success(function(data, status){
+			$scope.changes = data.objects;
+			for (var i = 0; i < $scope.changes.length; i++) {
+				$scope.changes[i].date = $scope.changes[i].date.substring(0,10);
+			}
+		})
+		.error(function(data, status){
+			$scope.errorMessage = 'Change Log service is under maitnence now';
+		});
 }]);
 
 editorControllers.controller('EditorController',
 	['$scope', '$location', '$http','NodeTool','LineTool','HandTool',
 	'CanvasService','ProjectService', 'UserService', 'UpdateService',
+	'MessageService', 'DeleteTool',
 	function($scope, $location, $http, NodeTool, LineTool, HandTool,
-		CanvasService, ProjectService, UserService, UpdateService){
+		CanvasService, ProjectService, UserService, UpdateService,
+		MessageService, DeleteTool){
 	if(UserService.isLogged)
 	{
 		$scope.canvasWidth = CanvasService.width;
@@ -71,6 +84,11 @@ editorControllers.controller('EditorController',
 				$scope.tool = new HandTool;
 		}
 
+		$scope.deleteTool = function(){
+			$scope.toolOption = undefined;
+			$scope.tool = new DeleteTool;
+		}
+
 		$scope.saveProject = function(){
 			ProjectService.scheme_body = JSON.stringify($scope.graph);
 			ProjectService.creation_date = new Date();
@@ -81,7 +99,8 @@ editorControllers.controller('EditorController',
 				$location.path('/user')
 			})
 			.error(function(data, status){
-				//TODO error handling
+				MessageService.from = 'saveProject';
+				MessageService.msg = 'Project cannot been save';
 			});
 		}
 
@@ -92,7 +111,8 @@ editorControllers.controller('EditorController',
 				$location.path('/user');
 			})
 			.error(function(data, status){
-				//TODO error handling
+				MessageService.from = 'updateProject';
+				MessageService.msg = 'Project cannot been updated';
 			});
 		}
 	}else{
@@ -102,15 +122,16 @@ editorControllers.controller('EditorController',
 
 editorControllers.controller('UserController',
 	['$scope', '$location', '$http', 'UserService', 'ApiService',
-	'CanvasService','ProjectService', 'UpdateService',
+	'CanvasService','ProjectService', 'UpdateService','MessageService',
 	function($scope, $location, $http, UserService, ApiService,
-		CanvasService, ProjectService, UpdateService){
+		CanvasService, ProjectService, UpdateService, MessageService){
 	if(UserService.isLogged)
 	{
+
 		$scope.userProjects = undefined;
 		$scope.loadMessage = undefined;
 		$scope.option = 'MyProjects';
-
+		$scope.msg = MessageService;
 		var api = new ApiService;
 		api.model = 'scheme';
 		api.constructQuerry('user_name','eq',UserService.user_name);
@@ -163,7 +184,10 @@ editorControllers.controller('UserController',
 				$location.path('/editor');
 			})
 			.error(function(data, status){
-				//TODO error handling
+				$scope.msg = {
+					from:'loadProject',
+					msg:'Project cannot be loaded'
+				};
 			});
 		}
 
@@ -173,7 +197,10 @@ editorControllers.controller('UserController',
 				//delete $scope.userProjects[project_id];
 			})
 			.error(function(data, status){
-
+				$scope.msg = {
+					from:'deleteProject',
+					msg:'Project cannot be delete'
+				};
 			});
 		}
 	}else{
