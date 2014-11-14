@@ -132,7 +132,6 @@ editorControllers.controller('UserController',
 		$scope.loadMessage = undefined;
 		$scope.option = 'MyProjects';
 		$scope.msg = MessageService;
-		function getAllProjects(){
 		var api = new ApiService;
 		api.model = 'scheme';
 		api.constructQuerry('user_name','eq',UserService.user_name);

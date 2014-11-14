@@ -46,8 +46,16 @@ function(NodeTool, LineTool, HandTool, DeleteTool){
 				{
 					if(currentTool.selected_object.type == 'node')
 					{
-								currentTool.selected_object.obj.x = event.offsetX;
-								currentTool.selected_object.obj.y = event.offsetY;
+						currentTool.selected_object.obj.x = event.offsetX;
+						currentTool.selected_object.obj.y = event.offsetY;
+					}else{
+						if(currentTool.selected_object.type == 'nodeStart'){
+							currentTool.selected_object.obj.nodeStart.x = event.offsetX;
+							currentTool.selected_object.obj.nodeStart.y = event.offsetY;
+						}else if(currentTool.selected_object.type == 'nodeEnd'){
+							currentTool.selected_object.obj.nodeEnd.x = event.offsetX;
+							currentTool.selected_object.obj.nodeEnd.y = event.offsetY;
+						}
 					}
 					redraw();
 				}
@@ -106,7 +114,7 @@ function(NodeTool, LineTool, HandTool, DeleteTool){
 						scope.graph.nodes.splice(i,1);
 					}
 				}
-				
+
 			}
 
 			function checkIfIobjectIsClicked(x, y){
@@ -129,9 +137,29 @@ function(NodeTool, LineTool, HandTool, DeleteTool){
 
 				for (var i = 0; i < scope.graph.edges.length; i++) {
 					var line = scope.graph.edges[i];
-
+					if(x < (line.nodeStart.x + 10)
+						&& x > (line.nodeStart.x - 10)){
+							onX = true;
+						}
+					if(y < (line.nodeStart.y + 10)
+						&& y > (line.nodeStart.y - 10)){
+							onY = true;
+						}
+					if(onX && onY){
+						return {obj: line, type:'nodeStart'};
+					}
+					if(x < (line.nodeEnd.x + 10)
+						&& x > (line.nodeEnd.x - 10)){
+							onX = true;
+					}
+					if(y < (line.nodeEnd.y + 10)
+						&& y > (line.nodeEnd.y - 10)){
+							onY = true;
+					}
+					if(onX && onY){
+						return {obj: line, type:'nodeEnd'};
+					}
 				}
-
 			}
 
 			function loadGraph(graph){
