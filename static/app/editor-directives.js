@@ -106,7 +106,7 @@ function(NodeTool, LineTool, HandTool, DeleteTool){
 						scope.graph.nodes.splice(i,1);
 					}
 				}
-				console.log(scope.graph);
+				
 			}
 
 			function checkIfIobjectIsClicked(x, y){

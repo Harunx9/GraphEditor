@@ -132,6 +132,7 @@ editorControllers.controller('UserController',
 		$scope.loadMessage = undefined;
 		$scope.option = 'MyProjects';
 		$scope.msg = MessageService;
+		function getAllProjects(){
 		var api = new ApiService;
 		api.model = 'scheme';
 		api.constructQuerry('user_name','eq',UserService.user_name);
@@ -194,7 +195,7 @@ editorControllers.controller('UserController',
 		$scope.deleteProject = function(project_id){
 			$http.delete('http://127.0.0.1:5000/api/scheme/'+project_id)
 			.success(function(data, status){
-				//delete $scope.userProjects[project_id];
+
 			})
 			.error(function(data, status){
 				$scope.msg = {
